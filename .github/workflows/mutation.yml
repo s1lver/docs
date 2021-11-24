@@ -6,6 +6,7 @@ on:
       - 'CHANGELOG.md'
       - '.gitignore'
       - '.gitattributes'
+      - 'psalm.xml'
 
   push:
     paths-ignore:
@@ -14,15 +15,17 @@ on:
       - 'CHANGELOG.md'
       - '.gitignore'
       - '.gitattributes'
+      - 'psalm.xml'
+
+  schedule:
+    - cron: '0 0 * * *'
 
 name: mutation test
 
 jobs:
   mutation:
-    name: PHP ${{ matrix.php-version }}-${{ matrix.os }}
-    env:
-      extensions: curl, mbstring, dom, intl, json, libxml, xml, xmlwriter, sockets
-      key: cache-v1
+    name: PHP ${{ matrix.php }}-${{ matrix.os }}
+
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -30,35 +33,20 @@ jobs:
         os:
           - ubuntu-latest
 
-        php-version:
-          - "7.4"
+        php:
+          - 7.4
+          - 8.0
 
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v2"
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Setup cache environment
-        id: cache-env
-        uses: shivammathur/cache-extensions@v1
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.extensions }}
-          key: ${{ env.key }}
-
-      - name: Cache extensions
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.cache-env.outputs.dir }}
-          key: ${{ steps.cache-env.outputs.key }}
-          restore-keys: ${{ steps.cache-env.outputs.key }}
-
-      - name: "Install PHP with extensions"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: ${{ env.extensions }}
+          php-version: ${{ matrix.php }}
           ini-values: memory_limit=-1
-          coverage: "pcov"
+          coverage: pcov
           tools: composer:v2
 
       - name: Determine composer cache directory
@@ -68,9 +56,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
-          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
+          key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
-            php${{ matrix.php-version }}-composer-
+            php${{ matrix.php }}-composer-
 
       - name: Update composer
         run: composer self-update
@@ -78,7 +66,7 @@ jobs:
       - name: Install dependencies with composer
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
 
-      - name: Run test mutation infection with coverage
+      - name: Run infection
         run: |
           git fetch --depth=1 origin $GITHUB_BASE_REF
           vendor/bin/roave-infection-static-analysis-plugin -j2 --git-diff-filter=A --git-diff-base=origin/$GITHUB_BASE_REF --logger-github --ignore-msi-with-no-mutations --only-covered
