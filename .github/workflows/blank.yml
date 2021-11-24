@@ -17,7 +17,6 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
 
         php-version:
           - "7.4"
@@ -53,11 +52,8 @@ jobs:
 
       - name: Determine composer cache directory on Linux
         if: matrix.os == 'ubuntu-latest'
+        id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Determine composer cache directory on Windows
-        if: matrix.os == 'windows-latest'
-        run: echo "::set-output name=dir::~\AppData\Local\Composer"
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v2
@@ -81,10 +77,6 @@ jobs:
 
       - name: Run tests with phpunit without coverage on Linux php 8.0
         if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'
-        run: vendor/bin/phpunit
-
-      - name: Run tests with phpunit without coverage on Windows
-        if: matrix.os == 'windows-latest'
         run: vendor/bin/phpunit
 
       - name: Upload code coverage scrutinizer on Linux php 7.4
