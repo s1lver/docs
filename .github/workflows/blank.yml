@@ -53,18 +53,16 @@ jobs:
 
       - name: Determine composer cache directory on Linux
         if: matrix.os == 'ubuntu-latest'
-        env:
-          COMPOSER_CACHE_DIR: $(composer config cache-dir)
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Determine composer cache directory on Windows
         if: matrix.os == 'windows-latest'
-        env:
-          COMPOSER_CACHE_DIR: ~\AppData\Local\Composer
+        run: echo "::set-output name=dir::~\AppData\Local\Composer"
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v2
         with:
-          path: ${{ env.COMPOSER_CACHE_DIR }}
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             php${{ matrix.php-version }}-composer-
