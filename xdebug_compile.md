@@ -1,16 +1,21 @@
 # Сборка XDebug
 
 ### Получаем последний дистрибутив
+
+```bash
+wget https://xdebug.org/files/xdebug-3.1.4.tgz
+```
+
 ### Распаковываем
 
 ```
-tar xvzf xdebug-3.0.4.tgz
+tar xvzf xdebug-3.1.4.tgz
 ```
 
 ### Переходим в папку
 
 ```
-cd ./xdebug-3.0.4/
+cd ./xdebug-3.1.4/
 ```
 
 ### Инициализируем
@@ -34,5 +39,5 @@ phpize
 ### Собираем и устанавливаем
 
 ```
-make && sudo make install
+make -j2 && sudo make install
 ```
