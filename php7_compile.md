@@ -210,3 +210,9 @@ WantedBy=multi-user.target
 systemctl enable php7
 systemctl start php7
 ```
+
+Проверим запустилась ли служба.
+
+```bash
+systemctl status php7
+```
