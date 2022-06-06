@@ -36,5 +36,17 @@ apt install libsodium-dev libonig-dev
 Переходим к компиляции и установке PHP.
 
 ```bash
-make && make install
+make -j2 && make install
+```
+
+Создадим каталог для конф. файлов, заданный опцией --with-config-file-path=/etc/php80/conf. Сама опция не создает каталог при установке, она лишь указывает системе где искать php.ini, помимо него, в данном каталоге можно хранить и другие .conf-файлы.
+
+```bash
+mkdir -p /etc/php80/conf
+```
+
+Дополнительно создадим каталог в котором будут лежать файлы php-fpm пулов.
+
+```bash
+mkdir /etc/php80/pool
 ```
