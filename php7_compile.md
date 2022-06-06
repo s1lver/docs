@@ -32,7 +32,7 @@ tar -zxvf php-7.1.3.tar.gz
 cd php-7.1.3
 ```
 
-Все дальнейшие действия производятся внутри каталога /usr/local/src/php-7.1.3
+Все дальнейшие действия производятся внутри каталога `/usr/local/src/php-7.1.3`
 
 Задаем конфигурацию сборки, добавляем нужное, ненужное убираем. Всю нужную информацию о модулях, расширениях и о том что необходимо для их установки, можно узнать в документации к PHP.
 
@@ -42,13 +42,13 @@ cd php-7.1.3
 ./configure --prefix=/usr/local/php7 --with-config-file-path=/etc/php7/conf --with-fpm-user=nginx --with-fpm-group=nginx --enable-fpm --enable-mysqlnd --enable-mbstring --enable-sockets --enable-opcache --enable-zip --disable-phar --disable-ipv6 --with-openssl --with-zlib --with-curl --with-gd --with-jpeg-dir=/usr --with-png-dir=/usr --with-webp-dir=/usr --with-xpm-dir=/usr --with-freetype-dir=/usr --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-mysqli=mysqlnd --with-bz2 --without-sqlite3 --without-pdo-sqlite --without-pear
 ```
 
-Переходим к компиляции и установке PHP (Придется подождать. Процесс долгий).
+Переходим к компиляции и установке PHP.
 
 ```bash
 make && make install
 ```
 
-Создадим каталог для конф. файлов, заданный опцией "--with-config-file-path=/etc/php7/conf". Сама опция не создает каталог при установке, она лишь указывает системе где искать php.ini, помимо него, в данном каталоге я привык хранить и другие .conf-файлы. Сборка из исходников хороша тем, что все можно настроить как тебе удобно.
+Создадим каталог для конф. файлов, заданный опцией `--with-config-file-path=/etc/php7/conf`. Сама опция не создает каталог при установке, она лишь указывает системе где искать php.ini, помимо него, в данном каталоге можно хранить и другие .conf-файлы.
 
 ```bash
 mkdir -p /etc/php7/conf
@@ -62,19 +62,19 @@ mkdir /etc/php7/pool
 
 Теперь необходимо задать конф. файлы, точнее, скопировать и переименовать уже готовые.
 
-Из каталога с исходниками копируем файл php.ini.production, в каталог /etc/php7/conf, попутно переименовывая его в php.ini.
+Из каталога с исходниками копируем файл php.ini.production, в каталог `/etc/php7/conf`, попутно переименовывая его в php.ini.
 
 ```bash
 cp /usr/local/src/php-7.1.3/php.ini-production /etc/php7/conf/php.ini
 ```
 
-Сюда же переносим файл php-fpm.conf.default с попутным переименованием в php-fpm.conf, я привык когда все конфигурационные файлы находятся в одном месте.
+Сюда же переносим файл php-fpm.conf.default с попутным переименованием в php-fpm.conf.
 
 ```bash
 cp /usr/local/php7/etc/php-fpm.conf.default /etc/php7/conf/php-fpm.conf
 ```
 
-Создадим пустую заготовку файла пула test.conf, для будущего сайта.
+Создадим пустую заготовку файла пула test.conf.
 
 ```bash
 touch /etc/php7/pool/test.conf
@@ -82,9 +82,11 @@ touch /etc/php7/pool/test.conf
 
 Переходим к правке конф. файлов. Начнем с php.ini и внесем некоторые изменения
 
+```bash
+vim /etc/php7/conf/php.ini
+```
+
 ```ini
-# Редактируем php.ini
-nano /etc/php7/conf/php.ini
 ######################################################################################
 # Изменяем следующие значения
 ######################################################################################
@@ -121,7 +123,7 @@ vim /etc/php7/conf/php-fpm.conf
 pid = /var/run/php-fpm.pid
 ; Путь к log-файлу
 error_log = /var/log/php-fpm/error.log
-; Уровень логгирования ошибок
+; Уровень логирования ошибок
 log_level = notice
 emergency_restart_threshold = 0
 emergency_restart_interval = 1m
@@ -132,7 +134,7 @@ events.mechanism = epoll
 include=/etc/php7/pool/*.conf
 ```
 
-Поскольку мы указали /var/log/php-fpm в качестве каталога для log-файлов, то его необходимо создать, в противном случае при запуске демона PHP будет выдаваться ошибка.
+Поскольку мы указали `/var/log/php-fpm` в качестве каталога для log-файлов, то его необходимо создать, в противном случае при запуске демона PHP будет выдаваться ошибка.
 
 ```bash
 mkdir /var/log/php-fpm
