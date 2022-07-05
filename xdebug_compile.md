@@ -39,7 +39,7 @@ phpize
 ### Собираем и устанавливаем
 
 ```bash
-make -j2 && sudo make install
+make -j$(nproc) && sudo make install
 ```
 
 ### Добавим расширение в php.ini
