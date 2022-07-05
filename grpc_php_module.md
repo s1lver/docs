@@ -16,12 +16,13 @@ cd grpc
 
 ```bash
 git submodule update --init
-EXTRA_DEFINES=GRPC_POSIX_FORK_ALLOW_PTHREAD_ATFORK make
+EXTRA_DEFINES=GRPC_POSIX_FORK_ALLOW_PTHREAD_ATFORK make -j$(nproc)
 ```
 
 Выбираем необходимый язык. В нашем случае - это PHP.
 
 ```bash
+grpc_root="$(pwd)"
 cd ./src/php/ext/grpc
 ```
 
@@ -34,14 +35,13 @@ phpize
 ## Конфигурация
 
 ```bash
-grpc_root="$(pwd)"
 GRPC_LIB_SUBDIR=libs/opt ./configure --enable-grpc="${grpc_root}"
 ```
 
 ## Сборка и установка
 
 ```bash
-make
+make -j$(nproc)
 [sudo] make install
 ```
 
