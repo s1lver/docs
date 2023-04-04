@@ -18,16 +18,16 @@ on:
 name: Mutation test
 
 jobs:
-  rabbitmq:
-    services:
-      rabbitmq:
-        image: rabbitmq:latest
-        env:
-          RABBITMQ_DEFAULT_USER: guest
-          RABBITMQ_DEFAULT_PASS: guest
-        ports:
-          - 5672
   mutation:
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Start RabbitMQ
+        uses: namoshek/rabbitmq-github-action@v1
+        with:
+          ports: '1883:1883 8883:8883'
+
     uses: yiisoft/actions/.github/workflows/roave-infection.yml@master
     with:
       os: >-
@@ -37,6 +37,6 @@ jobs:
 
     secrets:
       RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
+      RABBITMQ_PORT: 1883
       RABBITMQ_USER: guest
       RABBITMQ_PASSWORD: guest
