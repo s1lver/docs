@@ -41,3 +41,4 @@ jobs:
       RABBITMQ_PORT: 1883
       RABBITMQ_USER: guest
       RABBITMQ_PASSWORD: guest
+      STRYKER_DASHBOARD_API_KEY: test
