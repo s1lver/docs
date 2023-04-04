@@ -18,7 +18,7 @@ on:
 name: Mutation test
 
 jobs:
-  mutation:
+  rabbitmq:
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
         uses: namoshek/rabbitmq-github-action@v1
         with:
           ports: '1883:1883 8883:8883'
-
+  mutation:
     uses: yiisoft/actions/.github/workflows/roave-infection.yml@master
     with:
       os: >-
