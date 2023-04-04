@@ -35,7 +35,7 @@ jobs:
         ['ubuntu-latest']
       php: >-
         ['8.0', '8.1', '8.2']
-      env: >-
+      secrets: >-
         RABBITMQ_HOST: rabbitmq
         RABBITMQ_PORT: 1883
         RABBITMQ_USER: guest
