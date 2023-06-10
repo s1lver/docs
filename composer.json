@@ -1,0 +1,12 @@
+{
+    "name": "s1lver/docs",
+    "require": {
+        "spiral/roadrunner": "^2.11",
+        "spiral/roadrunner-http": "^2.1",
+        "spiral/roadrunner-worker": "^2.3",
+        "spiral/roadrunner-grpc": "^2.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    }
+}
