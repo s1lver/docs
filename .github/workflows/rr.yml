@@ -31,7 +31,7 @@ jobs:
         run: vendor/bin/rr get-binary && cp ./rr /usr/local/bin/rr
       - name: Run RoadRunner
         run: |
-          - pwd
-          - export TEST=$(pwd)
-          - rr -w=/home/runner/work/docs/docs -d serve
+          pwd
+          export TEST=$(pwd)
+          rr -w=/home/runner/work/docs/docs -d serve
 
