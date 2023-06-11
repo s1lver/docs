@@ -21,12 +21,6 @@ server:
   # This option is required.
   command: "php test.php"
 
-  # Environment variables for the worker processes.
-  #
-  # Default: <empty map>
-  env:
-    - YII_ALIAS_WEBROOT: ./web
-
   # Worker relay can be: "pipes", TCP (eg.: tcp://127.0.0.1:6002), or socket (eg.: unix:///var/run/rr.sock).
   #
   # Default: "pipes"
@@ -218,7 +212,7 @@ http:
     # Path to the directory to serve
     #
     # Default: "." (current)
-    dir: "./web"
+    dir: "./"
 
     # File patterns to forbid
     #
