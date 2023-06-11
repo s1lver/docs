@@ -364,20 +364,3 @@ http:
   idle_timeout: 0s # accepted values [1s, 5m, 3h]
   idle_check_freq: 0s # accepted values [1s, 5m, 3h]
   read_only: false
-
-## RoadRunner internal container configuration (docs: https://github.com/spiral/endure).
-endure:
-  # How long to wait for stopping.
-  #
-  # Default: 30s
-  grace_period: 30s
-
-  # Print graph in the graphviz format to the stdout (paste here to visualize https://dreampuf.github.io)
-  #
-  # Default: false
-  print_graph: false
-
-  # Logging level. Possible values: "debug", "info", "warn", "error", "panic", "fatal".
-  #
-  # Default: "error"
-  log_level: error
