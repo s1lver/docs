@@ -33,5 +33,5 @@ jobs:
         run: |
           pwd
           export TEST=$(pwd)
-          rr -w=/home/runner/work/docs/docs -d serve
+          rr -w=$(pwd) -d serve
 
